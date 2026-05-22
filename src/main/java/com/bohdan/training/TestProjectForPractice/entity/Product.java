@@ -1,0 +1,35 @@
+package com.bohdan.training.TestProjectForPractice.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.*;
+import java.math.*;
+
+@Entity
+@Table(schema = "jdbo",name = "products")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;                                    //refactoring
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal cost;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
+    @Column(nullable = true, length = 512)
+    private String description;
+}
+
