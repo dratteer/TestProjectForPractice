@@ -14,4 +14,6 @@ public interface OrderService {
     void update(Long id, OrderCreateUpdateDto updatedDto);
 
     void delete(Long id);
+
+    void calculateTotal(Long id);
 }

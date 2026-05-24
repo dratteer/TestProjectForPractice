@@ -6,6 +6,7 @@ import com.bohdan.training.TestProjectForPractice.dto.OrderDetailResponseDto;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderDetailMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
+import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public class OrderDetailServiceImpl implements OrderDetailService{
     private final OrderDetailRepository orderDetailRepository;
     private final OrderDetailMapper orderDetailMapper;
+    private final ProductRepository productRepository;
+    private final OrderService orderService;
 
     @Override
     public List<OrderDetailResponseDto> getAll() {
@@ -35,7 +38,12 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     @Override
     public IdDto create(OrderDetailCreateUpdateDto dto) {
         OrderDetail entity = orderDetailMapper.toEntity(dto);
+        var product = productRepository.findById(dto.getProductId())
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+        entity.setPrice(product.getPrice());
         OrderDetail saved = orderDetailRepository.save(entity);
+
+        orderService.calculateTotal(dto.getOrderId());
 
         IdDto idDto = new IdDto();
         idDto.setId(saved.getId());
@@ -52,7 +60,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     @Override
-    public  void delete(Long id) {
+    public void delete(Long id) {
         orderDetailRepository.deleteById(id);
     }
 }

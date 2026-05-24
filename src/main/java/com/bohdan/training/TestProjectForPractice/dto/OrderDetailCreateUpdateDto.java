@@ -16,5 +16,4 @@ public class OrderDetailCreateUpdateDto {
     private Long orderId;
     private Long productId;
     private Integer qty;
-    private BigDecimal price;
 }

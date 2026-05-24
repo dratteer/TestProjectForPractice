@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-22T16:27:51+0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
+    date = "2026-05-24T17:29:59+0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 26.0.1 (Oracle Corporation)"
 )
 @Component
 public class OrderDetailMapperImpl implements OrderDetailMapper {
@@ -51,7 +51,6 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
         orderDetail.setProduct( toProduct( dto.getProductId() ) );
         orderDetail.setId( dto.getId() );
         orderDetail.setQty( dto.getQty() );
-        orderDetail.setPrice( dto.getPrice() );
 
         return orderDetail;
     }
@@ -84,9 +83,6 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
         }
         if ( dto.getQty() != null ) {
             entity.setQty( dto.getQty() );
-        }
-        if ( dto.getPrice() != null ) {
-            entity.setPrice( dto.getPrice() );
         }
     }
 }

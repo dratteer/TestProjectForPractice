@@ -5,7 +5,9 @@ import com.bohdan.training.TestProjectForPractice.dto.OrderCreateUpdateDto;
 import com.bohdan.training.TestProjectForPractice.dto.OrderResponseDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderMapper;
+import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
 import com.bohdan.training.TestProjectForPractice.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
     private final OrderMapper orderMapper;
 
     @Override
@@ -53,7 +56,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public  void delete(Long id) {
+    public void delete(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void calculateTotal(Long id){
+        var total = orderDetailRepository.calculateTotalByOrderId(id);
+
+        var order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setSum(total);
     }
 }
