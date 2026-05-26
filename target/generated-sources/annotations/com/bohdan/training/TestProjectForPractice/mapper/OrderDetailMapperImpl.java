@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.OrderDetailCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderDetailResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDetailDto;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-24T17:29:59+0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 26.0.1 (Oracle Corporation)"
+    date = "2026-05-26T16:04:41+0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
 public class OrderDetailMapperImpl implements OrderDetailMapper {
@@ -23,24 +23,24 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
     private ProductMapper productMapper;
 
     @Override
-    public OrderDetailResponseDto toDto(OrderDetail orderDetail) {
+    public OrderDetailDto toDto(OrderDetail orderDetail) {
         if ( orderDetail == null ) {
             return null;
         }
 
-        OrderDetailResponseDto orderDetailResponseDto = new OrderDetailResponseDto();
+        OrderDetailDto orderDetailDto = new OrderDetailDto();
 
-        orderDetailResponseDto.setOrder( orderMapper.toDto( orderDetail.getOrder() ) );
-        orderDetailResponseDto.setProduct( productMapper.toDto( orderDetail.getProduct() ) );
-        orderDetailResponseDto.setId( orderDetail.getId() );
-        orderDetailResponseDto.setQty( orderDetail.getQty() );
-        orderDetailResponseDto.setPrice( orderDetail.getPrice() );
+        orderDetailDto.setOrder( orderMapper.toDto( orderDetail.getOrder() ) );
+        orderDetailDto.setProduct( productMapper.toDto( orderDetail.getProduct() ) );
+        orderDetailDto.setId( orderDetail.getId() );
+        orderDetailDto.setQty( orderDetail.getQty() );
+        orderDetailDto.setPrice( orderDetail.getPrice() );
 
-        return orderDetailResponseDto;
+        return orderDetailDto;
     }
 
     @Override
-    public OrderDetail toEntity(OrderDetailCreateUpdateDto dto) {
+    public OrderDetail toEntity(OrderDetailUpsertDto dto) {
         if ( dto == null ) {
             return null;
         }
@@ -56,12 +56,12 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
     }
 
     @Override
-    public List<OrderDetailResponseDto> toDtoList(List<OrderDetail> orderDetails) {
+    public List<OrderDetailDto> toDtoList(List<OrderDetail> orderDetails) {
         if ( orderDetails == null ) {
             return null;
         }
 
-        List<OrderDetailResponseDto> list = new ArrayList<OrderDetailResponseDto>( orderDetails.size() );
+        List<OrderDetailDto> list = new ArrayList<OrderDetailDto>( orderDetails.size() );
         for ( OrderDetail orderDetail : orderDetails ) {
             list.add( toDto( orderDetail ) );
         }
@@ -70,7 +70,7 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
     }
 
     @Override
-    public void updateOrderDetailFromDto(OrderDetailCreateUpdateDto dto, OrderDetail entity) {
+    public void updateOrderDetailFromDto(OrderDetailUpsertDto dto, OrderDetail entity) {
         if ( dto == null ) {
             return;
         }

@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.ProductCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.ProductResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.ProductUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.ProductDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
 import org.mapstruct.*;
@@ -12,16 +12,16 @@ import java.util.List;
 public interface ProductMapper {
 
     @Mapping(target = "brand", source = "brand")
-    ProductResponseDto toDto(Product product);
+    ProductDto toDto(Product product);
 
     @Mapping(target = "brand", source = "brandId", qualifiedByName = "toBrand")
-    Product toEntity(ProductCreateUpdateDto dto);
+    Product toEntity(ProductUpsertDto dto);
 
-    List<ProductResponseDto> toDtoList(List<Product> products);
+    List<ProductDto> toDtoList(List<Product> products);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "brand", source = "brandId", qualifiedByName = "toBrand")
-    void updateProductFromDto(ProductCreateUpdateDto dto, @MappingTarget Product entity);
+    void updateProductFromDto(ProductUpsertDto dto, @MappingTarget Product entity);
 
     @Named("toBrand")
     default Brand toBrand(Long brandId) {

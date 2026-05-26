@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.OrderCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-24T17:29:58+0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 26.0.1 (Oracle Corporation)"
+    date = "2026-05-26T16:04:42+0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -21,23 +21,23 @@ public class OrderMapperImpl implements OrderMapper {
     private ClientMapper clientMapper;
 
     @Override
-    public OrderResponseDto toDto(Order order) {
+    public OrderDto toDto(Order order) {
         if ( order == null ) {
             return null;
         }
 
-        OrderResponseDto orderResponseDto = new OrderResponseDto();
+        OrderDto orderDto = new OrderDto();
 
-        orderResponseDto.setClient( clientMapper.toDto( order.getClient() ) );
-        orderResponseDto.setId( order.getId() );
-        orderResponseDto.setDate( order.getDate() );
-        orderResponseDto.setSum( order.getSum() );
+        orderDto.setClient( clientMapper.toDto( order.getClient() ) );
+        orderDto.setId( order.getId() );
+        orderDto.setDate( order.getDate() );
+        orderDto.setSum( order.getSum() );
 
-        return orderResponseDto;
+        return orderDto;
     }
 
     @Override
-    public Order toEntity(OrderCreateUpdateDto dto) {
+    public Order toEntity(OrderUpsertDto dto) {
         if ( dto == null ) {
             return null;
         }
@@ -46,19 +46,17 @@ public class OrderMapperImpl implements OrderMapper {
 
         order.setClient( toClient( dto.getClientId() ) );
         order.setId( dto.getId() );
-        order.setDate( dto.getDate() );
-        order.setSum( dto.getSum() );
 
         return order;
     }
 
     @Override
-    public List<OrderResponseDto> toDtoList(List<Order> orders) {
+    public List<OrderDto> toDtoList(List<Order> orders) {
         if ( orders == null ) {
             return null;
         }
 
-        List<OrderResponseDto> list = new ArrayList<OrderResponseDto>( orders.size() );
+        List<OrderDto> list = new ArrayList<OrderDto>( orders.size() );
         for ( Order order : orders ) {
             list.add( toDto( order ) );
         }
@@ -67,19 +65,13 @@ public class OrderMapperImpl implements OrderMapper {
     }
 
     @Override
-    public void updateOrderFromDto(OrderCreateUpdateDto dto, Order entity) {
+    public void updateOrderFromDto(OrderUpsertDto dto, Order entity) {
         if ( dto == null ) {
             return;
         }
 
         if ( dto.getClientId() != null ) {
             entity.setClient( toClient( dto.getClientId() ) );
-        }
-        if ( dto.getDate() != null ) {
-            entity.setDate( dto.getDate() );
-        }
-        if ( dto.getSum() != null ) {
-            entity.setSum( dto.getSum() );
         }
     }
 }

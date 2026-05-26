@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
-import com.bohdan.training.TestProjectForPractice.dto.ClientDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.ClientDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.entity.Client;
 import com.bohdan.training.TestProjectForPractice.mapper.ClientMapper;

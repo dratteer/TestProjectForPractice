@@ -1,5 +1,6 @@
-package com.bohdan.training.TestProjectForPractice.dto;
+package com.bohdan.training.TestProjectForPractice.dto.Response;
 
+import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponseDto {
-    private Long id;
+public class ProductDto extends IdDto {
     private String name;
     private BrandDto brand;
     private BigDecimal cost;

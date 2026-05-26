@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.BrandDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.BrandDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-24T17:29:59+0300",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 26.0.1 (Oracle Corporation)"
+    date = "2026-05-26T16:04:42+0300",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
 public class BrandMapperImpl implements BrandMapper {

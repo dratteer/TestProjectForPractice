@@ -1,17 +1,15 @@
-package com.bohdan.training.TestProjectForPractice.dto;
+package com.bohdan.training.TestProjectForPractice.dto.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailCreateUpdateDto {
+public class OrderDetailUpsertDto {
     private Long id;
     private Long orderId;
     private Long productId;

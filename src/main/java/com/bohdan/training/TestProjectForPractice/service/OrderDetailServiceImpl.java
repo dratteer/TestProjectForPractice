@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderDetailCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderDetailResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDetailDto;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderDetailMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
@@ -21,14 +21,14 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     private final OrderService orderService;
 
     @Override
-    public List<OrderDetailResponseDto> getAll() {
+    public List<OrderDetailDto> getAll() {
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
 
         return orderDetailMapper.toDtoList(orderDetails);
     }
 
     @Override
-    public OrderDetailResponseDto getById(Long id) {
+    public OrderDetailDto getById(Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("order not found"));
 
@@ -36,7 +36,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     @Override
-    public IdDto create(OrderDetailCreateUpdateDto dto) {
+    public IdDto create(OrderDetailUpsertDto dto) {
         OrderDetail entity = orderDetailMapper.toEntity(dto);
         var product = productRepository.findById(dto.getProductId())
             .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -51,7 +51,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     @Override
-    public void update(Long id, OrderDetailCreateUpdateDto updatedDto) {
+    public void update(Long id, OrderDetailUpsertDto updatedDto) {
         OrderDetail existing = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
 

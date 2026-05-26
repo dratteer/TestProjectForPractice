@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
-import com.bohdan.training.TestProjectForPractice.dto.BrandDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.BrandDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
 import com.bohdan.training.TestProjectForPractice.mapper.BrandMapper;

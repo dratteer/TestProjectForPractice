@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,14 +24,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
 
     @Override
-    public List<OrderResponseDto> getAll() {
+    public List<OrderDto> getAll() {
         List<Order> orders = orderRepository.findAll();
 
         return orderMapper.toDtoList(orders);
     }
 
     @Override
-    public OrderResponseDto getById(Long id) {
+    public OrderDto getById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("order not found"));
 
@@ -37,8 +39,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public IdDto create(OrderCreateUpdateDto dto) {
+    public IdDto create(OrderUpsertDto dto) {
         Order entity = orderMapper.toEntity(dto);
+        entity.setDate(Instant.now());
         Order saved = orderRepository.save(entity);
 
         IdDto idDto = new IdDto();
@@ -47,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void update(Long id, OrderCreateUpdateDto updatedDto) {
+    public void update(Long id, OrderUpsertDto updatedDto) {
         Order existing = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -63,10 +66,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void calculateTotal(Long id){
-        var total = orderDetailRepository.calculateTotalByOrderId(id);
-
         var order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        var total = orderDetailRepository.getTotalByOrderId(id);
         order.setSum(total);
     }
 }

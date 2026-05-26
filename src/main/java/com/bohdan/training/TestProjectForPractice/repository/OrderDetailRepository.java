@@ -11,8 +11,5 @@ import java.math.BigDecimal;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     @Query("select coalesce(sum(od.qty * od.price), 0) from OrderDetail od where od.order.id = :orderId")
-    BigDecimal calculateTotalByOrderId(@Param("orderId") Long orderId);
-
-    /*@Override
-    Optional<Client> findById(Long id);*/
+    BigDecimal getTotalByOrderId(@Param("orderId") Long orderId);
 }

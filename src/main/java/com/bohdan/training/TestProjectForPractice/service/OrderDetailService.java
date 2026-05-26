@@ -1,17 +1,19 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.*;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDetailDto;
 
 import java.util.List;
 
 public interface OrderDetailService{
-    List<OrderDetailResponseDto> getAll();
+    List<OrderDetailDto> getAll();
 
-    OrderDetailResponseDto getById(Long id);
+    OrderDetailDto getById(Long id);
 
-    IdDto create(OrderDetailCreateUpdateDto dto);
+    IdDto create(OrderDetailUpsertDto dto);
 
-    void update(Long id, OrderDetailCreateUpdateDto updatedDto);
+    void update(Long id, OrderDetailUpsertDto updatedDto);
 
     void delete(Long id);
 }

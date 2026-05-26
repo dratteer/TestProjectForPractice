@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(schema = "jdbo",name = "orders")
@@ -21,7 +21,7 @@ public class Order {
     private Long id;                                    //refactoring
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private Instant date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)

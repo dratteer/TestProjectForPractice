@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.controller;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderCreateUpdateDto;
-import com.bohdan.training.TestProjectForPractice.dto.OrderResponseDto;
+import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +20,23 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<OrderResponseDto>> getAll() {
+    public ResponseEntity<List<OrderDto>> getAll() {
         return ResponseEntity.ok(orderService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<OrderDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<IdDto> create(@RequestBody OrderCreateUpdateDto dto) {
+    public ResponseEntity<IdDto> create(@RequestBody OrderUpsertDto dto) {
         IdDto saved = orderService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody OrderCreateUpdateDto orderDtoResponse) {
+    public void update(@PathVariable Long id, @RequestBody OrderUpsertDto orderDtoResponse) {
         orderService.update(id, orderDtoResponse);
     }
 

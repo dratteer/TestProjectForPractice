@@ -1,20 +1,15 @@
-package com.bohdan.training.TestProjectForPractice.dto;
+package com.bohdan.training.TestProjectForPractice.dto.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderCreateUpdateDto {
+public class OrderUpsertDto {
     private Long id;
-    private LocalDateTime date;
     private Long clientId;
-    private BigDecimal sum;
 }

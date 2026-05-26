@@ -1,4 +1,4 @@
-package com.bohdan.training.TestProjectForPractice.dto;
+package com.bohdan.training.TestProjectForPractice.dto.Request;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCreateUpdateDto {
+public class ProductUpsertDto {
     private String name;
     private Long brandId;
     private BigDecimal price;
