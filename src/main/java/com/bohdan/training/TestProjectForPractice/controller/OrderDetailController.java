@@ -35,9 +35,9 @@ public class OrderDetailController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody OrderDetailUpsertDto orderDetailDtoResponse) {
-        orderDetailService.update(id, orderDetailDtoResponse);
+    @PatchMapping("/{id}")
+    public void patch(@PathVariable Long id, @RequestParam Integer qty) {
+        orderDetailService.patch(id, qty);
     }
 
     @DeleteMapping("/{id}")

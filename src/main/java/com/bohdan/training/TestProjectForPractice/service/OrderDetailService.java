@@ -13,7 +13,7 @@ public interface OrderDetailService{
 
     IdDto create(OrderDetailUpsertDto dto);
 
-    void update(Long id, OrderDetailUpsertDto updatedDto);
+    void patch(Long id, Integer qty);
 
     void delete(Long id);
 }

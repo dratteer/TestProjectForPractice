@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "jdbo",name = "statuses")
+@Table(schema = "jdbo",name = "productStatuses")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Status {
+public class ProductStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

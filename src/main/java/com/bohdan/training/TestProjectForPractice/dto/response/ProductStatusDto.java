@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StatusDto extends IdDto {
+public class ProductStatusDto extends IdDto {
     @NotBlank
     private String name;
 }

@@ -2,9 +2,7 @@ package com.bohdan.training.TestProjectForPractice.mapper;
 
 import com.bohdan.training.TestProjectForPractice.dto.request.ProductUpsertDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.ProductDto;
-import com.bohdan.training.TestProjectForPractice.dto.response.StatusDto;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
-import com.bohdan.training.TestProjectForPractice.entity.Status;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-28T23:26:44+0300",
+    date = "2026-06-01T19:29:50+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
@@ -37,7 +35,6 @@ public class ProductMapperImpl implements ProductMapper {
         productDto.setPrice( product.getPrice() );
         productDto.setDescription( product.getDescription() );
         productDto.setStockQty( product.getStockQty() );
-        productDto.setStatus( statusToStatusDto( product.getStatus() ) );
 
         return productDto;
     }
@@ -98,18 +95,5 @@ public class ProductMapperImpl implements ProductMapper {
         if ( dto.getStockQty() != null ) {
             entity.setStockQty( dto.getStockQty() );
         }
-    }
-
-    protected StatusDto statusToStatusDto(Status status) {
-        if ( status == null ) {
-            return null;
-        }
-
-        StatusDto statusDto = new StatusDto();
-
-        statusDto.setId( status.getId() );
-        statusDto.setName( status.getName() );
-
-        return statusDto;
     }
 }

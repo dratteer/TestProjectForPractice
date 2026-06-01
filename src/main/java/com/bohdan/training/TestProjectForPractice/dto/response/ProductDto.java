@@ -32,5 +32,5 @@ public class ProductDto extends IdDto {
     @Positive
     private Integer stockQty;
 
-    private StatusDto status;
+    private ProductStatusDto status;
 }
