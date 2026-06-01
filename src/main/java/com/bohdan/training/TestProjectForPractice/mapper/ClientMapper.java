@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Response.ClientDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.ClientDto;
 import com.bohdan.training.TestProjectForPractice.entity.Client;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

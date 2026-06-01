@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-26T16:04:42+0300",
+    date = "2026-05-28T23:26:44+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
@@ -45,7 +45,6 @@ public class OrderMapperImpl implements OrderMapper {
         Order order = new Order();
 
         order.setClient( toClient( dto.getClientId() ) );
-        order.setId( dto.getId() );
 
         return order;
     }

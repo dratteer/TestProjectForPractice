@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.*;
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 
 import java.util.List;
 

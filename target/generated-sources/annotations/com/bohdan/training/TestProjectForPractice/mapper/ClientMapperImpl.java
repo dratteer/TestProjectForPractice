@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Response.ClientDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.ClientDto;
 import com.bohdan.training.TestProjectForPractice.entity.Client;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-26T16:04:41+0300",
+    date = "2026-05-28T23:26:44+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component

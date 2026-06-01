@@ -29,7 +29,14 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(nullable = true, length = 512)
+    @Column(length = 512)
     private String description;
+
+    @Column(nullable = false)
+    private Integer stockQty;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private Status status;
 }
 

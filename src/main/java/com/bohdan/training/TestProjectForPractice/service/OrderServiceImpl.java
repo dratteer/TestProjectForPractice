@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

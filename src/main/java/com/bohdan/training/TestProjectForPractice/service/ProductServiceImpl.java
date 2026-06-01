@@ -1,13 +1,16 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.Request.ProductUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.ProductDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.ProductUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.ProductDto;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
+import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
 import com.bohdan.training.TestProjectForPractice.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,16 +22,15 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public List<ProductDto> getAll() {
-        List<Product> products = productRepository.findAll();
-
-        return productMapper.toDtoList(products);
+    public Page<ProductDto> getAll(Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(productMapper::toDto);
     }
 
     @Override
     public ProductDto getById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Product", id));
 
         return productMapper.toDto(product);
     }
@@ -46,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void update(Long id, ProductUpsertDto updatedDto) {
         Product existing = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Product", id));
 
         productMapper.updateProductFromDto(updatedDto, existing);
         productRepository.save(existing);
@@ -54,6 +56,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public  void delete(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new EntityNotFoundException("Product", id);
+        }
         productRepository.deleteById(id);
     }
 }

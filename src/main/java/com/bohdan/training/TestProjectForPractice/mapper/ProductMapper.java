@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Request.ProductUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.ProductDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.ProductUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.ProductDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
 import org.mapstruct.*;

@@ -1,8 +1,8 @@
 package com.bohdan.training.TestProjectForPractice.controller;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

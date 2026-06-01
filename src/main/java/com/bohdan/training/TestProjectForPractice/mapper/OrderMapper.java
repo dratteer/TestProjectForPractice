@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.Client;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import org.mapstruct.*;

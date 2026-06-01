@@ -8,12 +8,10 @@ com\bohdan\training\TestProjectForPractice\service\BrandService.class
 com\bohdan\training\TestProjectForPractice\entity\Brand.class
 com\bohdan\training\TestProjectForPractice\mapper\ProductMapper.class
 com\bohdan\training\TestProjectForPractice\repository\BrandRepository.class
-com\bohdan\training\TestProjectForPractice\dto\ClientDto.class
 com\bohdan\training\TestProjectForPractice\mapper\OrderDetailMapper.class
 com\bohdan\training\TestProjectForPractice\controller\ProductController.class
 com\bohdan\training\TestProjectForPractice\mapper\BrandMapper.class
 com\bohdan\training\TestProjectForPractice\repository\OrderRepository.class
-com\bohdan\training\TestProjectForPractice\dto\BrandDto.class
 com\bohdan\training\TestProjectForPractice\mapper\BrandMapperImpl.class
 com\bohdan\training\TestProjectForPractice\mapper\OrderDetailMapperImpl.class
 com\bohdan\training\TestProjectForPractice\entity\Order.class

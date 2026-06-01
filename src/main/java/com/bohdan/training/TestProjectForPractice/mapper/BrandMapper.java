@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Response.BrandDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.BrandDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

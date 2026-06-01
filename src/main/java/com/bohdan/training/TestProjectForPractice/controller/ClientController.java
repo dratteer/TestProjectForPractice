@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.controller;
 
-import com.bohdan.training.TestProjectForPractice.dto.Response.ClientDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.ClientDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.service.ClientService;
 import org.springframework.http.HttpStatus;

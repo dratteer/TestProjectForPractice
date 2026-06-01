@@ -1,7 +1,8 @@
-package com.bohdan.training.TestProjectForPractice.dto.Response;
+package com.bohdan.training.TestProjectForPractice.dto.response;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,7 @@ import java.time.Instant;
 public class OrderDto extends IdDto {
     private Instant date;
     private ClientDto client;
+
+    @Positive(message = "Sum должна быть положительной")
     private BigDecimal sum;
 }

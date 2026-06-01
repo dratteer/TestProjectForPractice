@@ -1,7 +1,7 @@
 package com.bohdan.training.TestProjectForPractice.mapper;
 
-import com.bohdan.training.TestProjectForPractice.dto.Request.OrderDetailUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.Response.OrderDetailDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.OrderDetailDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import com.bohdan.training.TestProjectForPractice.entity.Product;

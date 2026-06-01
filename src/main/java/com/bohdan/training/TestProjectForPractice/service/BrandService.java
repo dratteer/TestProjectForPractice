@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
-import com.bohdan.training.TestProjectForPractice.dto.Response.BrandDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.BrandDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 
 import java.util.List;
