@@ -22,4 +22,5 @@ public class OrderDto extends IdDto {
 
     @Positive(message = "Sum должна быть положительной")
     private BigDecimal sum;
+    private OrderStatusDto orderStatus;
 }

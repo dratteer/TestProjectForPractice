@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrderUpsertDto {
     private Long clientId;
+    private Long orderStatusId;
 }

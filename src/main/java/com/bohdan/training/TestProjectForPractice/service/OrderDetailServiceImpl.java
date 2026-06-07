@@ -1,6 +1,6 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
-import com.bohdan.training.TestProjectForPractice.constance.StatusConstance;
+import com.bohdan.training.TestProjectForPractice.constance.ProductStatusConstance;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderDetailUpsertDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDetailDto;
@@ -48,7 +48,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
-        calculation(dto.getProductId(), dto.getQty());
+        calcProductStockQty(dto.getProductId(), dto.getQty());
 
         OrderDetail entity = orderDetailMapper.toEntity(dto);
         entity.setPrice(
@@ -70,7 +70,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
 
         int newQty = qty - existing.getQty();
 
-        calculation(existing.getProduct().getId(), newQty);
+        calcProductStockQty(existing.getProduct().getId(), newQty);
 
         existing.setQty(qty);
         existing.setPrice(existing.getProduct().getPrice());
@@ -85,25 +85,25 @@ public class OrderDetailServiceImpl implements OrderDetailService{
         OrderDetail existing = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
 
-        calculation(existing.getProduct().getId(), - existing.getQty());
+        calcProductStockQty(existing.getProduct().getId(), - existing.getQty());
 
         orderDetailRepository.deleteById(id);
 
         orderService.calculateTotal(existing.getOrder().getId());
     }
 
-    public void calculation(Long productId, Integer qty){
+    public void calcProductStockQty(Long productId, Integer qty) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         int statusId = product.getProductStatus().getId().intValue();
-        if (statusId == 3){
+
+        if (statusId == ProductStatusConstance.discontinued) {
             throw new RuntimeException("Product is discontinued");
         }
-        else if (statusId == 4){
+        else if (statusId == ProductStatusConstance.comingSoon) {
             throw new RuntimeException("Product is coming soon");
         }
-
 
         int newQty = product.getStockQty() - qty;
         if (newQty < 0) {
@@ -113,13 +113,13 @@ public class OrderDetailServiceImpl implements OrderDetailService{
         product.setStockQty(newQty);
 
         if (newQty == 0) {
-            ProductStatus outOfStock = productStatusRepository.findById((long) StatusConstance.outOfStock)
+            ProductStatus outOfStock = productStatusRepository.findById((long) ProductStatusConstance.outOfStock)
                     .orElseThrow(() -> new RuntimeException("ProductStatus not found"));
 
             product.setProductStatus(outOfStock);
         }
-        else {
-            ProductStatus available = productStatusRepository.findById((long) StatusConstance.available)
+        else if (product.getProductStatus().getId().intValue() != ProductStatusConstance.available) {
+            ProductStatus available = productStatusRepository.findById((long) ProductStatusConstance.available)
                     .orElseThrow(() -> new RuntimeException("ProductStatus not found"));
 
             product.setProductStatus(available);

@@ -3,14 +3,11 @@ package com.bohdan.training.TestProjectForPractice.dto.response;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@JsonPropertyOrder({ "id", "name", "brand", "price", "description", "cost" })
+@JsonPropertyOrder({ "id", "name", "brand", "price", "description", "cost", "productStatus", "stockQty"})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,5 +29,5 @@ public class ProductDto extends IdDto {
     @Positive
     private Integer stockQty;
 
-    private ProductStatusDto status;
+    private ProductStatusDto productStatus;
 }

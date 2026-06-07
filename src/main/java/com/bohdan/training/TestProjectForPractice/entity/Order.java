@@ -29,4 +29,8 @@ public class Order {
 
     @Column(nullable = false)
     private BigDecimal sum;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_status_id", nullable = false)
+    private OrderStatus orderStatus;
 }

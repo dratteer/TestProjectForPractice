@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-01T19:29:50+0300",
+    date = "2026-06-06T14:52:20+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
@@ -19,6 +19,8 @@ public class ProductMapperImpl implements ProductMapper {
 
     @Autowired
     private BrandMapper brandMapper;
+    @Autowired
+    private ProductStatusMapper productStatusMapper;
 
     @Override
     public ProductDto toDto(Product product) {
@@ -29,6 +31,7 @@ public class ProductMapperImpl implements ProductMapper {
         ProductDto productDto = new ProductDto();
 
         productDto.setBrand( brandMapper.toDto( product.getBrand() ) );
+        productDto.setProductStatus( productStatusMapper.toDto( product.getProductStatus() ) );
         productDto.setId( product.getId() );
         productDto.setName( product.getName() );
         productDto.setCost( product.getCost() );
@@ -48,6 +51,7 @@ public class ProductMapperImpl implements ProductMapper {
         Product product = new Product();
 
         product.setBrand( toBrand( dto.getBrandId() ) );
+        product.setProductStatus( toProductStatus( dto.getProductStatusId() ) );
         product.setName( dto.getName() );
         product.setCost( dto.getCost() );
         product.setPrice( dto.getPrice() );
@@ -79,6 +83,9 @@ public class ProductMapperImpl implements ProductMapper {
 
         if ( dto.getBrandId() != null ) {
             entity.setBrand( toBrand( dto.getBrandId() ) );
+        }
+        if ( dto.getProductStatusId() != null ) {
+            entity.setProductStatus( toProductStatus( dto.getProductStatusId() ) );
         }
         if ( dto.getName() != null ) {
             entity.setName( dto.getName() );

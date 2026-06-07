@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-01T19:29:50+0300",
+    date = "2026-06-06T14:52:21+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
@@ -19,6 +19,8 @@ public class OrderMapperImpl implements OrderMapper {
 
     @Autowired
     private ClientMapper clientMapper;
+    @Autowired
+    private OrderStatusMapper orderStatusMapper;
 
     @Override
     public OrderDto toDto(Order order) {
@@ -29,6 +31,7 @@ public class OrderMapperImpl implements OrderMapper {
         OrderDto orderDto = new OrderDto();
 
         orderDto.setClient( clientMapper.toDto( order.getClient() ) );
+        orderDto.setOrderStatus( orderStatusMapper.toDto( order.getOrderStatus() ) );
         orderDto.setId( order.getId() );
         orderDto.setDate( order.getDate() );
         orderDto.setSum( order.getSum() );
@@ -45,6 +48,7 @@ public class OrderMapperImpl implements OrderMapper {
         Order order = new Order();
 
         order.setClient( toClient( dto.getClientId() ) );
+        order.setOrderStatus( toOrderStatus( dto.getOrderStatusId() ) );
 
         return order;
     }
@@ -71,6 +75,9 @@ public class OrderMapperImpl implements OrderMapper {
 
         if ( dto.getClientId() != null ) {
             entity.setClient( toClient( dto.getClientId() ) );
+        }
+        if ( dto.getOrderStatusId() != null ) {
+            entity.setOrderStatus( toOrderStatus( dto.getOrderStatusId() ) );
         }
     }
 }

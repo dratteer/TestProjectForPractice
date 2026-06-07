@@ -52,7 +52,7 @@ public class ProductController {
                     description = "Product found"
             ),
             @ApiResponse(
-                    responseCode = "404",
+                    responseCode = "404docker compose up -d",
                     description = "Product not found",
                     content = @Content(
                             schema = @Schema(

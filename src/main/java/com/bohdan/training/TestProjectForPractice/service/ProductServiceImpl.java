@@ -7,11 +7,14 @@ import com.bohdan.training.TestProjectForPractice.entity.Product;
 import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
 import com.bohdan.training.TestProjectForPractice.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -28,7 +31,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "products", key = "#id")
     public ProductDto getById(Long id) {
+        System.out.println("Loading product from DB: " + id);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product", id));
 
@@ -36,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public IdDto create(ProductUpsertDto dto) {                      //public ProductDto create(ProductDto dto) {
+    public IdDto create(ProductUpsertDto dto) {
         Product entity = productMapper.toEntity(dto);
         Product saved = productRepository.save(entity);
 
@@ -46,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(value = "products", key = "#id")
     public void update(Long id, ProductUpsertDto updatedDto) {
         Product existing = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product", id));
@@ -55,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(value = "products", key = "#id")
     public  void delete(Long id) {
         if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException("Product", id);

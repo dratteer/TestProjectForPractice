@@ -28,4 +28,6 @@ public class ProductUpsertDto {
     private String description;
 
     private Integer stockQty;
+
+    private Long productStatusId;
 }
