@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
+import org.aspectj.weaver.ast.Var;
 import org.hibernate.annotations.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,7 @@ public class ProductController {
                     )
             )
     })
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getById(
             @PathVariable
@@ -68,6 +70,12 @@ public class ProductController {
             @NotNull(message = "ID не может быть пустым")
             Long id) {
         return ResponseEntity.ok(productService.getById(id));
+    }
+
+    @PostMapping("/supplier")
+    public ResponseEntity<Void> addSuppliersProducts() {
+        productService.addSuppliersProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @Operation(summary = "Створити новий товар",  description = "Виклик на створення нового товару")

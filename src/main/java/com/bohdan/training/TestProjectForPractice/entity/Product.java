@@ -37,5 +37,8 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_status_id", nullable = false)
     private ProductStatus productStatus;
+
+    @Column(nullable = true)
+    private Long supplierProductId;
 }
 
