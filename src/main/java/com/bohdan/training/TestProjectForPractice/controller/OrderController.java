@@ -1,9 +1,12 @@
 package com.bohdan.training.TestProjectForPractice.controller;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.CheckoutDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.response.CheckoutResponseDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +46,23 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         orderService.delete(id);
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<CheckoutResponseDto> checkout(
+            @RequestBody @Valid CheckoutDto dto) {
+
+        CheckoutResponseDto response = orderService.checkout(dto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelOrder(
+            @PathVariable Long id) {
+
+        orderService.cancelOrder(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

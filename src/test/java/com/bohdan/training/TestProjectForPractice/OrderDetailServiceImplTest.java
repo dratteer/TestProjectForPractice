@@ -4,6 +4,7 @@ import com.bohdan.training.TestProjectForPractice.constance.ProductStatusConstan
 import com.bohdan.training.TestProjectForPractice.entity.Product;
 import com.bohdan.training.TestProjectForPractice.entity.ProductStatus;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
+import com.bohdan.training.TestProjectForPractice.service.CalculationStockService;
 import com.bohdan.training.TestProjectForPractice.service.OrderDetailServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,8 @@ class OrderDetailServiceImplTest {
 
     @InjectMocks
     private OrderDetailServiceImpl orderDetailService;
+    @InjectMocks
+    private CalculationStockService calculationStockService;
 
     @Test
     void shouldDecreaseProductStockQty() {
@@ -39,7 +42,7 @@ class OrderDetailServiceImplTest {
         when(productRepository.findById(1L))
                 .thenReturn(Optional.of(product));
 
-        orderDetailService.calcProductStockQty(1L, 3);
+        calculationStockService.calcProductStockQty(1L, 3);
 
         assertEquals(7, product.getStockQty());
     }
@@ -59,7 +62,7 @@ class OrderDetailServiceImplTest {
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> orderDetailService.calcProductStockQty(1L, 5)
+                () -> calculationStockService.calcProductStockQty(1L, 5)
         );
 
         assertEquals("Product is out of stock", exception.getMessage());

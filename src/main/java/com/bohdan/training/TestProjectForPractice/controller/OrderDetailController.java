@@ -2,8 +2,10 @@ package com.bohdan.training.TestProjectForPractice.controller;
 
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.UpdateOrderDetailQtyDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDetailDto;
 import com.bohdan.training.TestProjectForPractice.service.OrderDetailService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +45,11 @@ public class OrderDetailController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         orderDetailService.delete(id);
+    }
+
+    @PatchMapping("/{id}/qty")
+    public ResponseEntity<Void> updateQty(@PathVariable Long id, @RequestBody @Valid UpdateOrderDetailQtyDto dto) {
+        orderDetailService.updateQty(id, dto);
+        return ResponseEntity.noContent().build();
     }
 }

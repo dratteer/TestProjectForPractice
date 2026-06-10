@@ -1,21 +1,22 @@
 package com.bohdan.training.TestProjectForPractice.service;
 
-import com.bohdan.training.TestProjectForPractice.constance.ProductStatusConstance;
+import com.bohdan.training.TestProjectForPractice.constance.OrderStatusConstance;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderDetailUpsertDto;
+import com.bohdan.training.TestProjectForPractice.dto.request.UpdateOrderDetailQtyDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDetailDto;
+import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
-import com.bohdan.training.TestProjectForPractice.entity.ProductStatus;
 import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderDetailMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
-import com.bohdan.training.TestProjectForPractice.repository.ProductStatusRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -26,7 +27,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     private final OrderDetailMapper orderDetailMapper;
     private final ProductRepository productRepository;
     private final OrderService orderService;
-    private final ProductStatusRepository productStatusRepository;
+    private final CalculationStockService calculationStockService;
 
     @Override
     public List<OrderDetailDto> getAll() {
@@ -48,7 +49,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
-        calcProductStockQty(dto.getProductId(), dto.getQty());
+        calculationStockService.calcProductStockQty(dto.getProductId(), dto.getQty());
 
         OrderDetail entity = orderDetailMapper.toEntity(dto);
         entity.setPrice(
@@ -70,7 +71,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
 
         int newQty = qty - existing.getQty();
 
-        calcProductStockQty(existing.getProduct().getId(), newQty);
+        calculationStockService.calcProductStockQty(existing.getProduct().getId(), newQty);
 
         existing.setQty(qty);
         existing.setPrice(existing.getProduct().getPrice());
@@ -85,44 +86,54 @@ public class OrderDetailServiceImpl implements OrderDetailService{
         OrderDetail existing = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
 
-        calcProductStockQty(existing.getProduct().getId(), - existing.getQty());
+        calculationStockService.calcProductStockQty(existing.getProduct().getId(), - existing.getQty());
 
         orderDetailRepository.deleteById(id);
 
         orderService.calculateTotal(existing.getOrder().getId());
     }
 
-    public void calcProductStockQty(Long productId, Integer qty) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    @Override
+    @Transactional
+    public void updateQty(Long orderDetailId, UpdateOrderDetailQtyDto dto) {
 
-        int statusId = product.getProductStatus().getId().intValue();
+        OrderDetail detail = orderDetailRepository.findById(orderDetailId)
+                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
 
-        if (statusId == ProductStatusConstance.discontinued) {
-            throw new RuntimeException("Product is discontinued");
+        Order order = detail.getOrder();
+
+        int orderStatusId = order.getOrderStatus().getId().intValue();
+
+        if (orderStatusId == OrderStatusConstance.shipped
+                || orderStatusId == OrderStatusConstance.completed
+                || orderStatusId == OrderStatusConstance.canceled) {
+
+            throw new RuntimeException("Order cannot be modified");
         }
-        else if (statusId == ProductStatusConstance.comingSoon) {
-            throw new RuntimeException("Product is coming soon");
+
+        Product product = detail.getProduct();
+
+        int oldQty = detail.getQty();
+        int newQty = dto.getQty();
+
+        int delta = newQty - oldQty;
+
+        if (delta > 0) {
+
+            calculationStockService.calcProductStockQty(product.getId(), delta);
+
+        } else if (delta < 0) {
+
+            calculationStockService.returnProductStock(product.getId(), Math.abs(delta));
         }
 
-        int newQty = product.getStockQty() - qty;
-        if (newQty < 0) {
-           throw new RuntimeException("Product is out of stock");
-        }
+        detail.setQty(newQty);
 
-        product.setStockQty(newQty);
+        BigDecimal newPrice = product.getPrice().multiply(BigDecimal.valueOf(newQty));
 
-        if (newQty == 0) {
-            ProductStatus outOfStock = productStatusRepository.findById((long) ProductStatusConstance.outOfStock)
-                    .orElseThrow(() -> new RuntimeException("ProductStatus not found"));
+        detail.setPrice(newPrice);
 
-            product.setProductStatus(outOfStock);
-        }
-        else if (product.getProductStatus().getId().intValue() != ProductStatusConstance.available) {
-            ProductStatus available = productStatusRepository.findById((long) ProductStatusConstance.available)
-                    .orElseThrow(() -> new RuntimeException("ProductStatus not found"));
-
-            product.setProductStatus(available);
-        }
+        orderService.calculateTotal(order.getId()
+        );
     }
 }
