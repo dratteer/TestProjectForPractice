@@ -3,12 +3,12 @@ package com.bohdan.training.TestProjectForPractice.service;
 import com.bohdan.training.TestProjectForPractice.constance.OrderStatusConstance;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderDetailUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.request.UpdateOrderDetailQtyDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDetailDto;
 import com.bohdan.training.TestProjectForPractice.entity.Order;
 import com.bohdan.training.TestProjectForPractice.entity.OrderDetail;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
 import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
+import com.bohdan.training.TestProjectForPractice.exception.InvalidStatusException;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderDetailMapper;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
@@ -39,7 +39,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     @Override
     public OrderDetailDto getById(Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("order not found"));
+                .orElseThrow(() -> new EntityNotFoundException("OrderDetail", id));
 
         return orderDetailMapper.toDto(orderDetail);
     }
@@ -47,7 +47,7 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     @Override
     public IdDto create(OrderDetailUpsertDto dto) {
         Product product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Product", dto.getProductId()));
 
         calculationStockService.calcProductStockQty(dto.getProductId(), dto.getQty());
 
@@ -65,26 +65,9 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     @Override
-    public void patch(Long id, Integer qty) {
-        OrderDetail existing = orderDetailRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
-
-        int newQty = qty - existing.getQty();
-
-        calculationStockService.calcProductStockQty(existing.getProduct().getId(), newQty);
-
-        existing.setQty(qty);
-        existing.setPrice(existing.getProduct().getPrice());
-
-        orderDetailRepository.save(existing);
-
-        orderService.calculateTotal(existing.getOrder().getId());
-    }
-
-    @Override
     public void delete(Long id) {
         OrderDetail existing = orderDetailRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
+                .orElseThrow(() -> new EntityNotFoundException("OrderDetail", id));
 
         calculationStockService.calcProductStockQty(existing.getProduct().getId(), - existing.getQty());
 
@@ -95,10 +78,10 @@ public class OrderDetailServiceImpl implements OrderDetailService{
 
     @Override
     @Transactional
-    public void updateQty(Long orderDetailId, UpdateOrderDetailQtyDto dto) {
+    public void updateQty(Long orderDetailId, Integer qty) {
 
         OrderDetail detail = orderDetailRepository.findById(orderDetailId)
-                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
+                .orElseThrow(() -> new EntityNotFoundException("OrderDetail", orderDetailId));
 
         Order order = detail.getOrder();
 
@@ -108,22 +91,25 @@ public class OrderDetailServiceImpl implements OrderDetailService{
                 || orderStatusId == OrderStatusConstance.completed
                 || orderStatusId == OrderStatusConstance.canceled) {
 
-            throw new RuntimeException("Order cannot be modified");
+            throw new InvalidStatusException(
+                    "Order",
+                    order.getId(),
+                    order.getOrderStatus().getName(),
+                    "modify order details"
+            );
         }
 
         Product product = detail.getProduct();
 
         int oldQty = detail.getQty();
-        int newQty = dto.getQty();
+        int newQty = qty;
 
         int delta = newQty - oldQty;
 
         if (delta > 0) {
-
             calculationStockService.calcProductStockQty(product.getId(), delta);
-
-        } else if (delta < 0) {
-
+        }
+        else if (delta < 0) {
             calculationStockService.returnProductStock(product.getId(), Math.abs(delta));
         }
 

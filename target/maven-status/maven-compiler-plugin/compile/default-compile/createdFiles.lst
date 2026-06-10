@@ -13,6 +13,7 @@ com\bohdan\training\TestProjectForPractice\mapper\OrderMapper.class
 com\bohdan\training\TestProjectForPractice\repository\ClientRepository.class
 com\bohdan\training\TestProjectForPractice\service\ProductServiceImpl.class
 com\bohdan\training\TestProjectForPractice\mapper\ClientMapper.class
+com\bohdan\training\TestProjectForPractice\dto\ErrorResponseDto.class
 com\bohdan\training\TestProjectForPractice\mapper\OrderMapperImpl.class
 com\bohdan\training\TestProjectForPractice\mapper\ClientMapperImpl.class
 com\bohdan\training\TestProjectForPractice\repository\BrandRepository.class

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-09T22:34:29+0300",
+    date = "2026-06-10T21:50:10+0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Oracle Corporation)"
 )
 @Component
@@ -66,22 +66,5 @@ public class OrderDetailMapperImpl implements OrderDetailMapper {
         }
 
         return list;
-    }
-
-    @Override
-    public void updateOrderDetailFromDto(OrderDetailUpsertDto dto, OrderDetail entity) {
-        if ( dto == null ) {
-            return;
-        }
-
-        if ( dto.getOrderId() != null ) {
-            entity.setOrder( toOrder( dto.getOrderId() ) );
-        }
-        if ( dto.getProductId() != null ) {
-            entity.setProduct( toProduct( dto.getProductId() ) );
-        }
-        if ( dto.getQty() != null ) {
-            entity.setQty( dto.getQty() );
-        }
     }
 }

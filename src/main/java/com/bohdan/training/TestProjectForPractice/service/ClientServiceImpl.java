@@ -3,6 +3,7 @@ package com.bohdan.training.TestProjectForPractice.service;
 import com.bohdan.training.TestProjectForPractice.dto.response.ClientDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.entity.Client;
+import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
 import com.bohdan.training.TestProjectForPractice.mapper.ClientMapper;
 import com.bohdan.training.TestProjectForPractice.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto getById(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Client", id));
 
         return clientMapper.toDto(client);
     }
@@ -44,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void update(Long id, ClientDto updatedDto) {
         Client existing = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Client", id));
         clientMapper.updateClientFromDto(updatedDto, existing);
         clientRepository.save(existing);
     }

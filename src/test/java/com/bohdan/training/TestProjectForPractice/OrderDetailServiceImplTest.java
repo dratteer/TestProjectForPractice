@@ -3,8 +3,10 @@ package com.bohdan.training.TestProjectForPractice;
 import com.bohdan.training.TestProjectForPractice.constance.ProductStatusConstance;
 import com.bohdan.training.TestProjectForPractice.entity.Product;
 import com.bohdan.training.TestProjectForPractice.entity.ProductStatus;
+import com.bohdan.training.TestProjectForPractice.exception.ProductOutOfStockException;
 import com.bohdan.training.TestProjectForPractice.repository.ProductRepository;
-import com.bohdan.training.TestProjectForPractice.service.CalculationStockService;
+import com.bohdan.training.TestProjectForPractice.repository.ProductStatusRepository;
+import com.bohdan.training.TestProjectForPractice.service.CalculationStockServiceImpl;
 import com.bohdan.training.TestProjectForPractice.service.OrderDetailServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,10 +26,14 @@ class OrderDetailServiceImplTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductStatusRepository productStatusRepository;
+
     @InjectMocks
     private OrderDetailServiceImpl orderDetailService;
+
     @InjectMocks
-    private CalculationStockService calculationStockService;
+    private CalculationStockServiceImpl calculationStockService;
 
     @Test
     void shouldDecreaseProductStockQty() {
@@ -60,11 +66,11 @@ class OrderDetailServiceImplTest {
         when(productRepository.findById(1L))
                 .thenReturn(Optional.of(product));
 
-        RuntimeException exception = assertThrows(
-                RuntimeException.class,
+        ProductOutOfStockException exception = assertThrows(
+                ProductOutOfStockException.class,
                 () -> calculationStockService.calcProductStockQty(1L, 5)
         );
 
-        assertEquals("Product is out of stock", exception.getMessage());
+        assertEquals("Product with id 1 has not enough stock. Requested: 5, available: 3", exception.getMessage());
     }
 }

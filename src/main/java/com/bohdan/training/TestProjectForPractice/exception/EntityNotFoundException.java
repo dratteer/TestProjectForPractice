@@ -6,7 +6,6 @@ public class EntityNotFoundException extends RuntimeException {
         super(message);
     }
 
-    // Удобный конструктор с id
     public EntityNotFoundException(String entityName, Long id) {
         super(entityName + " with id " + id + " not found");
     }

@@ -37,11 +37,6 @@ public class OrderDetailController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    @PatchMapping("/{id}")
-    public void patch(@PathVariable Long id, @RequestParam Integer qty) {
-        orderDetailService.patch(id, qty);
-    }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         orderDetailService.delete(id);
@@ -49,7 +44,7 @@ public class OrderDetailController {
 
     @PatchMapping("/{id}/qty")
     public ResponseEntity<Void> updateQty(@PathVariable Long id, @RequestBody @Valid UpdateOrderDetailQtyDto dto) {
-        orderDetailService.updateQty(id, dto);
+        orderDetailService.updateQty(id, dto.getQty());
         return ResponseEntity.noContent().build();
     }
 }

@@ -24,10 +24,10 @@ public interface OrderDetailMapper {
 
     List<OrderDetailDto> toDtoList(List<OrderDetail> orderDetails);
 
-    @Mapping(target = "id", ignore = true)
+    /*@Mapping(target = "id", ignore = true)
     @Mapping(target = "order", source = "orderId", qualifiedByName = "toOrder")
     @Mapping(target = "product", source = "productId", qualifiedByName = "toProduct")
-    void updateOrderDetailFromDto(OrderDetailUpsertDto dto, @MappingTarget OrderDetail entity);
+    void updateOrderDetailFromDto(OrderDetailUpsertDto dto, @MappingTarget OrderDetail entity);*/
 
     @Named("toOrder")
     default Order toOrder(Long orderId) {

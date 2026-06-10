@@ -5,11 +5,12 @@ import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.CheckoutDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.CheckoutItemDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.request.UpdateOrderDetailQtyDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.CheckoutItemResponseDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.CheckoutResponseDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 import com.bohdan.training.TestProjectForPractice.entity.*;
+import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
+import com.bohdan.training.TestProjectForPractice.exception.InvalidStatusException;
 import com.bohdan.training.TestProjectForPractice.mapper.OrderMapper;
 import com.bohdan.training.TestProjectForPractice.repository.ClientRepository;
 import com.bohdan.training.TestProjectForPractice.repository.OrderDetailRepository;
@@ -45,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("order not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order", id));
 
         return orderMapper.toDto(order);
     }
@@ -64,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void update(Long id, OrderUpsertDto updatedDto) {
         Order existing = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order", id));
 
         orderMapper.updateOrderFromDto(updatedDto, existing);
         orderRepository.save(existing);
@@ -79,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void calculateTotal(Long id){
         var order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order", id));
 
         var total = orderDetailRepository.getTotalByOrderId(id);
         order.setSum(total);
@@ -90,10 +91,10 @@ public class OrderServiceImpl implements OrderService {
     public CheckoutResponseDto checkout(CheckoutDto dto) {
 
         Client client = clientRepository.findById(dto.getClientId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Client", dto.getClientId()));
         OrderStatus orderStatus = orderStatusRepository.findById(
                         (long) OrderStatusConstance.created)
-                .orElseThrow(() -> new RuntimeException("OrderStatus not found"));
+                .orElseThrow(() -> new EntityNotFoundException("OrderStatus", (long) OrderStatusConstance.created));
 
         Order order = new Order();
         order.setClient(client);
@@ -155,20 +156,18 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(Long id) {
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order", id));
 
         int orderStatusId = order.getOrderStatus().getId().intValue();
 
         if (orderStatusId == OrderStatusConstance.shipped) {
-            throw new RuntimeException("Shipped order cannot be cancelled");
+            throw new InvalidStatusException("Order", order.getId(), order.getOrderStatus().getName(), "cancel");
         }
-
-        if (orderStatusId == OrderStatusConstance.completed) {
-            throw new RuntimeException("Completed order cannot be cancelled");
+        else if (orderStatusId == OrderStatusConstance.completed) {
+            throw new InvalidStatusException("Order", order.getId(), order.getOrderStatus().getName(), "cancel");
         }
-
-        if (orderStatusId == OrderStatusConstance.canceled) {
-            throw new RuntimeException("Order already cancelled");
+        else if (orderStatusId == OrderStatusConstance.canceled) {
+            throw new InvalidStatusException("Order", order.getId(), order.getOrderStatus().getName(), "cancel");
         }
 
         List<OrderDetail> details = orderDetailRepository.findByOrderId(id);
@@ -182,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderStatus cancelledStatus = orderStatusRepository.findById(
                         (long) OrderStatusConstance.canceled)
-                .orElseThrow(() -> new RuntimeException("OrderStatus not found"));
+                .orElseThrow(() -> new EntityNotFoundException("OrderStatus", (long) OrderStatusConstance.canceled));
 
         order.setOrderStatus(cancelledStatus);
     }

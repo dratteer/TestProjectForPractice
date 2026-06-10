@@ -3,7 +3,6 @@ package com.bohdan.training.TestProjectForPractice.service;
 import com.bohdan.training.TestProjectForPractice.dto.*;
 import com.bohdan.training.TestProjectForPractice.dto.request.CheckoutDto;
 import com.bohdan.training.TestProjectForPractice.dto.request.OrderUpsertDto;
-import com.bohdan.training.TestProjectForPractice.dto.request.UpdateOrderDetailQtyDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.CheckoutResponseDto;
 import com.bohdan.training.TestProjectForPractice.dto.response.OrderDto;
 

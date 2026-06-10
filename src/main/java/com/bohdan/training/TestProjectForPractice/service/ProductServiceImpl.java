@@ -52,13 +52,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void addSuppliersProducts() {
-        ProductUpsertDto productUpsertDto = new ProductUpsertDto();
-
         List<SupplierApiDto> receivedDto = restClient.get()
                 .uri("/supplier-products")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<SupplierApiDto>>() {});
+                .body(new ParameterizedTypeReference<>() {});
+
+        if (receivedDto == null) {
+            return;
+        }
 
         for (SupplierApiDto supplierProduct : receivedDto) {
             var product = productRepository.findBySupplierProductId(supplierProduct.getId());
@@ -89,12 +91,6 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }
-
-        /*productUpsertDto.setName(receivedDto.getName());
-        productUpsertDto.setCost(receivedDto.getCost());
-        productUpsertDto.setPrice(
-                receivedDto.getCost().multiply(BigDecimal.valueOf(1.2)));*/
-
     }
 
     @Override

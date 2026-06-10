@@ -26,7 +26,7 @@ public class GlobalValidationExceptionHandler {
         });
 
         response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Validation Error");
+        response.put("message", "Validation Error");
         response.put("messages", errors);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -46,7 +46,7 @@ public class GlobalValidationExceptionHandler {
         });
 
         response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Validation Error");
+        response.put("message", "Validation Error");
         response.put("messages", errors);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

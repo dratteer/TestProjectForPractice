@@ -3,6 +3,7 @@ package com.bohdan.training.TestProjectForPractice.service;
 import com.bohdan.training.TestProjectForPractice.dto.response.BrandDto;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.bohdan.training.TestProjectForPractice.entity.Brand;
+import com.bohdan.training.TestProjectForPractice.exception.EntityNotFoundException;
 import com.bohdan.training.TestProjectForPractice.mapper.BrandMapper;
 import com.bohdan.training.TestProjectForPractice.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public BrandDto getById(Long id) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Brand", id));
 
         return brandMapper.toDto(brand);
     }
@@ -44,7 +45,7 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public void update(Long id, BrandDto updatedDto) {
         Brand existing = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brand not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Brand", id));
         brandMapper.updateBrandFromDto(updatedDto, existing);
         brandRepository.save(existing);
     }

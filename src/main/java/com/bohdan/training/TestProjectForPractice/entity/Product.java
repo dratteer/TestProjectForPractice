@@ -9,7 +9,6 @@ import java.math.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +37,7 @@ public class Product {
     @JoinColumn(name = "product_status_id", nullable = false)
     private ProductStatus productStatus;
 
-    @Column(nullable = true)
+    @Column()
     private Long supplierProductId;
 }
 

@@ -3,7 +3,6 @@ package com.bohdan.training.TestProjectForPractice.dto.response;
 import com.bohdan.training.TestProjectForPractice.dto.IdDto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class OrderDetailDto extends IdDto {
     private OrderDto order;
     private ProductDto product;
