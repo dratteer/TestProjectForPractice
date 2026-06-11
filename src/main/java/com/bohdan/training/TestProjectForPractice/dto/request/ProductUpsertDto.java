@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class ProductUpsertDto {
-    @NotBlank
+    @NotBlank(message = "Product name is required")
     private String name;
 
     @Positive
@@ -29,4 +29,6 @@ public class ProductUpsertDto {
     private Integer stockQty;
 
     private Long productStatusId;
+
+    private Long supplierProductId;
 }

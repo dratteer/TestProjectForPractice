@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)   //TODO combine exc handlers
     public ResponseEntity<ErrorResponseDto> handleUnexpectedException(
             Exception ex,
             HttpServletRequest request
@@ -82,5 +82,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response);
-    }
+    }*/
 }

@@ -26,12 +26,6 @@ class OrderDetailServiceImplTest {
     @Mock
     private ProductRepository productRepository;
 
-    @Mock
-    private ProductStatusRepository productStatusRepository;
-
-    @InjectMocks
-    private OrderDetailServiceImpl orderDetailService;
-
     @InjectMocks
     private CalculationStockServiceImpl calculationStockService;
 

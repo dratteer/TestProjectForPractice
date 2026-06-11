@@ -33,8 +33,7 @@ public class ProductController {
 
     @Operation(summary = "Отримати товари сторінками", description = "Повертає список усіх продуктів")
     @GetMapping()
-    public ResponseEntity<Page<ProductDto>> getAll(//@PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-                                                       Pageable pageable) {
+    public ResponseEntity<Page<ProductDto>> getAll(Pageable pageable) {
         return ResponseEntity.ok(productService.getAll(pageable));
     }
 

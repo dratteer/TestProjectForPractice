@@ -5,11 +5,6 @@ public class InvalidStatusException extends RuntimeException {
         super(message);
     }
 
-    public InvalidStatusException(String entityName, Long entityId, String statusName) {
-        super(entityName + " with id " + entityId +
-                " has invalid status for this operation: " + statusName);
-    }
-
     public InvalidStatusException(String entityName, Long entityId, String statusName, String operation) {
         super(entityName + " with id " + entityId +
                 " has invalid status '" + statusName +

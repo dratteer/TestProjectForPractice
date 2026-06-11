@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-
 public class GlobalValidationExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -21,7 +20,7 @@ public class GlobalValidationExceptionHandler {
 
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             String field = error.getField();
-            String message = error.getDefaultMessage();   // ← Здесь твоё message!
+            String message = error.getDefaultMessage();
             errors.put(field, message);
         });
 
@@ -32,7 +31,6 @@ public class GlobalValidationExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // Для валидации параметров (@PathVariable, @RequestParam)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
 
@@ -41,7 +39,7 @@ public class GlobalValidationExceptionHandler {
 
         ex.getConstraintViolations().forEach(violation -> {
             String field = violation.getPropertyPath().toString();
-            String message = violation.getMessage();   // ← Здесь твоё message!
+            String message = violation.getMessage();
             errors.put(field, message);
         });
 
